@@ -1,6 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form"
+import * as z from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -12,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-
 import {
   Dialog,
   DialogContent,
@@ -21,9 +24,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { useForm } from "react-hook-form"
-import * as z from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod"
+
+import { FileUplaod } from "@/components/common/FileUpload";
 
 export const InitialModal = () => {
 
@@ -56,6 +58,7 @@ export const InitialModal = () => {
   const isLoading = form.formState.isSubmitting
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values)
     console.log('form')
   }
 
@@ -77,6 +80,29 @@ export const InitialModal = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
+              <div className="flex items-center justify-center text-center">
+                <FormField 
+                  control={form.control}
+                  name="imageUrl"
+                  render={({field}) => (
+                    <FormItem>
+                      <FormLabel
+                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                      >
+                        Choose Server Image
+                      </FormLabel>
+                      <FormControl>
+                        <FileUplaod 
+                          endpoint="serverImageUpload"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="name"
@@ -94,32 +120,6 @@ export const InitialModal = () => {
                         focus-visible:ring-0 text-black
                         focus-visible:ring-offset-0" 
                         placeholder="Enter server name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="imageUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel
-                      className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                    >
-                      Server Image
-                    </FormLabel>
-                    <FormControl>
-                      <Input 
-                        type="file"
-                        disabled={isLoading}
-                        className="bg-zinc-300/50 border-0
-                        focus-visible:ring-0 text-black
-                        focus-visible:ring-offset-0" 
-                        placeholder="Choose File"
                         {...field}
                       />
                     </FormControl>
