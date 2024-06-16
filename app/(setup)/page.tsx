@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { InitialProfile } from '@/lib/initial-profile'
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
+import { InitialModal } from '@/components/modals/initial-modal';
 
 const SetUpPage = async () => {
 
@@ -22,9 +23,7 @@ const SetUpPage = async () => {
   }
   
   return (
-    <main>
-      Create a Server
-    </main>
+    <InitialModal />  
   )
 }
 
